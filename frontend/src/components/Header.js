@@ -11,6 +11,7 @@ function Header() {
     <header className="header">
       <div className="container header-content">
         <Link to="/" className="logo">
+          <span className="logo-icon">&#127860;</span>
           FoodOrder
         </Link>
         <nav className="nav">
@@ -18,7 +19,7 @@ function Header() {
           {admin && <Link to="/admin/orders" className="nav-link">Dashboard</Link>}
           {!admin && <Link to="/admin/login" className="nav-link">Admin</Link>}
           <Link to="/checkout" className="nav-link cart-link">
-            Cart ({itemCount}) - ${total.toFixed(2)}
+            &#128722; Cart ({itemCount}) - ${total.toFixed(2)}
           </Link>
         </nav>
       </div>

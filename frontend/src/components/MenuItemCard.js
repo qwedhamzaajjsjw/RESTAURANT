@@ -8,8 +8,8 @@ function MenuItemCard({ item, onAdd }) {
         {item.description && <p className="menu-item-desc">{item.description}</p>}
         <span className="menu-item-price">${item.price.toFixed(2)}</span>
       </div>
-      <button className="btn btn-primary btn-add" onClick={() => onAdd(item)}>
-        Add
+      <button className="btn btn-primary btn-sm btn-add" onClick={() => onAdd(item)}>
+        + Add
       </button>
     </div>
   );

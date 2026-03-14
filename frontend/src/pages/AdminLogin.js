@@ -32,19 +32,19 @@ function AdminLogin() {
   return (
     <div className="container">
       <div className="login-page">
-        <h1>Admin Login</h1>
+        <h1>&#128274; Admin Login</h1>
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input id="email" type="email" required value={email} onChange={e => setEmail(e.target.value)} />
+            <label htmlFor="email">Email Address</label>
+            <input id="email" type="email" required placeholder="admin@restaurant.com" value={email} onChange={e => setEmail(e.target.value)} />
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)} />
+            <input id="password" type="password" required placeholder="Enter your password" value={password} onChange={e => setPassword(e.target.value)} />
           </div>
           {error && <p className="error">{error}</p>}
           <button className="btn btn-primary" type="submit" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? 'Signing in...' : 'Sign In &#8594;'}
           </button>
         </form>
       </div>

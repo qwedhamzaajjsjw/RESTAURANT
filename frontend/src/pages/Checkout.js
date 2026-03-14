@@ -13,9 +13,14 @@ function Checkout() {
   if (itemCount === 0) {
     return (
       <div className="container">
-        <h1>Checkout</h1>
-        <p>Your cart is empty. Browse restaurants to add items.</p>
-        <button className="btn btn-primary" onClick={() => navigate('/')}>Browse Restaurants</button>
+        <div className="empty-state" style={{ padding: '80px 0' }}>
+          <div className="empty-state-icon">&#128722;</div>
+          <h2 style={{ marginBottom: 12, color: '#1a1a2e' }}>Your cart is empty</h2>
+          <p>Browse restaurants to add items to your cart.</p>
+          <button className="btn btn-primary" style={{ marginTop: 24 }} onClick={() => navigate('/')}>
+            Browse Restaurants &#8594;
+          </button>
+        </div>
       </div>
     );
   }
@@ -53,29 +58,32 @@ function Checkout() {
 
   return (
     <div className="container">
-      <h1>Checkout</h1>
+      <h1 className="page-title">Checkout</h1>
+      <p className="page-subtitle">Complete your order from {cart.restaurantName}</p>
       <div className="checkout-layout">
         <div className="checkout-form-section">
           <h2>Your Information</h2>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="name">Name *</label>
-              <input id="name" type="text" required value={form.customer_name}
+              <label htmlFor="name">Full Name *</label>
+              <input id="name" type="text" required placeholder="Enter your name" value={form.customer_name}
                 onChange={e => setForm({ ...form, customer_name: e.target.value })} />
             </div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input id="email" type="email" value={form.customer_email}
-                onChange={e => setForm({ ...form, customer_email: e.target.value })} />
-            </div>
-            <div className="form-group">
-              <label htmlFor="phone">Phone</label>
-              <input id="phone" type="tel" value={form.customer_phone}
-                onChange={e => setForm({ ...form, customer_phone: e.target.value })} />
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input id="email" type="email" placeholder="your@email.com" value={form.customer_email}
+                  onChange={e => setForm({ ...form, customer_email: e.target.value })} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="phone">Phone</label>
+                <input id="phone" type="tel" placeholder="+1 (555) 000-0000" value={form.customer_phone}
+                  onChange={e => setForm({ ...form, customer_phone: e.target.value })} />
+              </div>
             </div>
             <div className="form-group">
               <label htmlFor="notes">Special Instructions</label>
-              <textarea id="notes" rows="3" value={form.notes}
+              <textarea id="notes" rows="3" placeholder="Any special requests or dietary requirements..." value={form.notes}
                 onChange={e => setForm({ ...form, notes: e.target.value })} />
             </div>
             {error && <p className="error">{error}</p>}
@@ -86,7 +94,7 @@ function Checkout() {
         </div>
         <div className="checkout-summary">
           <h2>Order Summary</h2>
-          <p className="cart-restaurant">From: {cart.restaurantName}</p>
+          <p className="cart-restaurant">&#127860; {cart.restaurantName}</p>
           {cart.items.map(item => (
             <div key={item.id} className="cart-item">
               <div className="cart-item-info">

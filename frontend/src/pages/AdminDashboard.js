@@ -35,24 +35,36 @@ function AdminOrders() {
 
   return (
     <div>
-      <h2>Orders</h2>
+      <div className="section-header">
+        <h2>&#128230; Orders</h2>
+        <button className="btn btn-secondary btn-sm" onClick={loadOrders}>&#8635; Refresh</button>
+      </div>
       <div className="filter-bar">
         <select value={filter} onChange={e => setFilter(e.target.value)}>
           <option value="">All Orders</option>
           {statuses.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
         </select>
-        <button className="btn btn-secondary" onClick={loadOrders}>Refresh</button>
       </div>
-      {loading ? <p>Loading...</p> : (
+      {loading ? (
+        <div className="loading-container" style={{ padding: '40px 0' }}>
+          <div className="loading-spinner" />
+          <span className="loading-text">Loading orders...</span>
+        </div>
+      ) : (
         <div className="admin-orders-list">
-          {orders.length === 0 && <p>No orders found.</p>}
+          {orders.length === 0 && (
+            <div className="empty-state">
+              <div className="empty-state-icon">&#128230;</div>
+              <p>No orders found.</p>
+            </div>
+          )}
           {orders.map(order => (
             <div key={order.id} className="admin-order-card">
               <div className="admin-order-header">
                 <strong>{order.order_number}</strong>
                 <span className={`status-badge status-${order.status}`}>{order.status}</span>
               </div>
-              <p>{order.customer_name} - ${order.total.toFixed(2)}</p>
+              <p><strong>{order.customer_name}</strong> - ${order.total.toFixed(2)}</p>
               <p className="order-time">{new Date(order.created_at).toLocaleString()}</p>
               <div className="admin-order-actions">
                 {nextStatus(order.status) && (
@@ -138,14 +150,19 @@ function AdminMenu() {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return (
+    <div className="loading-container" style={{ padding: '40px 0' }}>
+      <div className="loading-spinner" />
+      <span className="loading-text">Loading menu...</span>
+    </div>
+  );
 
   return (
     <div>
       <div className="section-header">
-        <h2>Menu Items</h2>
-        <button className="btn btn-primary" onClick={() => { resetForm(); setShowForm(!showForm); }}>
-          {showForm ? 'Cancel' : 'Add Item'}
+        <h2>&#127860; Menu Items</h2>
+        <button className="btn btn-primary btn-sm" onClick={() => { resetForm(); setShowForm(!showForm); }}>
+          {showForm ? 'Cancel' : '+ Add Item'}
         </button>
       </div>
       {showForm && (
@@ -153,16 +170,16 @@ function AdminMenu() {
           <div className="form-row">
             <div className="form-group">
               <label>Name *</label>
-              <input required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
+              <input required placeholder="Item name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
             </div>
             <div className="form-group">
               <label>Price *</label>
-              <input required type="number" step="0.01" min="0" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} />
+              <input required type="number" step="0.01" min="0" placeholder="0.00" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} />
             </div>
           </div>
           <div className="form-group">
             <label>Description</label>
-            <textarea rows="2" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
+            <textarea rows="2" placeholder="Brief description of the item" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
           </div>
           <div className="form-group">
             <label>Category</label>
@@ -191,6 +208,12 @@ function AdminMenu() {
             </div>
           </div>
         ))}
+        {items.length === 0 && (
+          <div className="empty-state">
+            <div className="empty-state-icon">&#127860;</div>
+            <p>No menu items yet. Add your first item!</p>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -200,7 +223,13 @@ function AdminDashboard() {
   const { admin, logout, loading } = useAuth();
   const navigate = useNavigate();
 
-  if (loading) return <div className="container"><p>Loading...</p></div>;
+  if (loading) return (
+    <div className="loading-container">
+      <div className="loading-spinner" />
+      <span className="loading-text">Loading dashboard...</span>
+    </div>
+  );
+
   if (!admin) return <Navigate to="/admin/login" />;
 
   return (
@@ -209,11 +238,11 @@ function AdminDashboard() {
         <aside className="admin-sidebar">
           <div className="admin-info">
             <strong>{admin.name}</strong>
-            <span>Admin</span>
+            <span>Restaurant Admin</span>
           </div>
           <nav className="admin-nav">
-            <Link to="/admin/orders" className="admin-nav-link">Orders</Link>
-            <Link to="/admin/menu" className="admin-nav-link">Menu</Link>
+            <Link to="/admin/orders" className="admin-nav-link">&#128230; Orders</Link>
+            <Link to="/admin/menu" className="admin-nav-link">&#127860; Menu</Link>
           </nav>
           <button className="btn btn-secondary btn-logout" onClick={() => { logout(); navigate('/'); }}>
             Logout

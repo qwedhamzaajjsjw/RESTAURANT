@@ -9,15 +9,18 @@ function CartSidebar() {
   if (itemCount === 0) {
     return (
       <div className="cart-sidebar">
-        <h3>Your Cart</h3>
-        <p className="cart-empty">Your cart is empty</p>
+        <h3>&#128722; Your Cart</h3>
+        <div className="empty-state" style={{ padding: '24px 0' }}>
+          <div className="empty-state-icon">&#128722;</div>
+          <p className="cart-empty">Your cart is empty.<br />Add items to get started!</p>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="cart-sidebar">
-      <h3>Your Cart</h3>
+      <h3>&#128722; Your Cart</h3>
       {cart.restaurantName && <p className="cart-restaurant">From: {cart.restaurantName}</p>}
       <div className="cart-items">
         {cart.items.map(item => (
@@ -39,7 +42,7 @@ function CartSidebar() {
         <strong>Total: ${total.toFixed(2)}</strong>
       </div>
       <button className="btn btn-primary btn-checkout" onClick={() => navigate('/checkout')}>
-        Checkout
+        Proceed to Checkout &#8594;
       </button>
     </div>
   );

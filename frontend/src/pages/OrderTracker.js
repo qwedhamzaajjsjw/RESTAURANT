@@ -3,6 +3,13 @@ import { useParams } from 'react-router-dom';
 import { api } from '../services/api';
 
 const STATUS_STEPS = ['placed', 'confirmed', 'preparing', 'ready', 'delivered'];
+const STATUS_LABELS = {
+  placed: 'Order Placed',
+  confirmed: 'Confirmed',
+  preparing: 'Preparing',
+  ready: 'Ready',
+  delivered: 'Delivered'
+};
 
 function OrderTracker() {
   const { orderNumber } = useParams();
@@ -17,17 +24,29 @@ function OrderTracker() {
       .finally(() => setLoading(false));
   }, [orderNumber]);
 
-  if (loading) return <div className="container"><p>Loading order...</p></div>;
+  if (loading) return (
+    <div className="loading-container">
+      <div className="loading-spinner" />
+      <span className="loading-text">Loading your order...</span>
+    </div>
+  );
+
   if (error) return <div className="container"><p className="error">Error: {error}</p></div>;
 
   const currentStep = STATUS_STEPS.indexOf(order.status);
 
   return (
     <div className="container">
-      <h1>Order {order.order_number}</h1>
+      <h1 className="page-title">Order {order.order_number}</h1>
+      <p className="page-subtitle">
+        {order.status === 'delivered' ? 'Your order has been delivered!' :
+         order.status === 'cancelled' ? 'This order was cancelled.' :
+         'Track your order status in real-time'}
+      </p>
+
       {order.status === 'cancelled' ? (
         <div className="order-cancelled">
-          <p>This order has been cancelled.</p>
+          <p>&#10060; This order has been cancelled.</p>
         </div>
       ) : (
         <div className="order-tracker">
@@ -35,17 +54,31 @@ function OrderTracker() {
             {STATUS_STEPS.map((step, idx) => (
               <div key={step} className={`status-step ${idx <= currentStep ? 'active' : ''} ${idx === currentStep ? 'current' : ''}`}>
                 <div className="step-dot" />
-                <span className="step-label">{step.charAt(0).toUpperCase() + step.slice(1)}</span>
+                <span className="step-label">{STATUS_LABELS[step]}</span>
               </div>
             ))}
           </div>
         </div>
       )}
+
       <div className="order-details">
         <h2>Order Details</h2>
-        <p><strong>Customer:</strong> {order.customer_name}</p>
-        <p><strong>Placed:</strong> {new Date(order.created_at).toLocaleString()}</p>
-        {order.notes && <p><strong>Notes:</strong> {order.notes}</p>}
+        <div className="order-info-grid">
+          <div className="order-info-item">
+            <span className="order-info-label">Customer</span>
+            <span className="order-info-value">{order.customer_name}</span>
+          </div>
+          <div className="order-info-item">
+            <span className="order-info-label">Placed At</span>
+            <span className="order-info-value">{new Date(order.created_at).toLocaleString()}</span>
+          </div>
+          {order.notes && (
+            <div className="order-info-item">
+              <span className="order-info-label">Notes</span>
+              <span className="order-info-value">{order.notes}</span>
+            </div>
+          )}
+        </div>
         <h3>Items</h3>
         <div className="order-items-list">
           {order.items.map(item => (

@@ -8,11 +8,11 @@ function OrderConfirmation() {
     <div className="container">
       <div className="confirmation-page">
         <div className="confirmation-icon">&#10003;</div>
-        <h1>Order Placed!</h1>
+        <h1>Order Placed Successfully!</h1>
         <p>Your order <strong>{orderNumber}</strong> has been received.</p>
-        <p>We're preparing your food now.</p>
+        <p>We're preparing your delicious food right now.</p>
         <div className="confirmation-actions">
-          <Link to={`/track/${orderNumber}`} className="btn btn-primary">Track Order</Link>
+          <Link to={`/track/${orderNumber}`} className="btn btn-primary">Track Your Order &#8594;</Link>
           <Link to="/" className="btn btn-secondary">Order More</Link>
         </div>
       </div>

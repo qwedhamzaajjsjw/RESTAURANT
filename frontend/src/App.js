@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import RestaurantMenu from './pages/RestaurantMenu';
 import Checkout from './pages/Checkout';
@@ -24,6 +25,7 @@ function App() {
           <Route path="/admin/*" element={<AdminDashboard />} />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 }

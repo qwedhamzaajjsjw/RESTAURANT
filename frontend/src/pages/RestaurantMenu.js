@@ -19,7 +19,13 @@ function RestaurantMenu() {
       .finally(() => setLoading(false));
   }, [slug]);
 
-  if (loading) return <div className="container"><p>Loading menu...</p></div>;
+  if (loading) return (
+    <div className="loading-container">
+      <div className="loading-spinner" />
+      <span className="loading-text">Loading menu...</span>
+    </div>
+  );
+
   if (error) return <div className="container"><p className="error">Error: {error}</p></div>;
 
   const { restaurant, menu } = data;
@@ -34,8 +40,8 @@ function RestaurantMenu() {
         <h1>{restaurant.name}</h1>
         <p>{restaurant.description}</p>
         <div className="restaurant-meta">
-          <span>{restaurant.address}</span>
-          {restaurant.phone && <span> | {restaurant.phone}</span>}
+          <span>&#128205; {restaurant.address}</span>
+          {restaurant.phone && <span>&#128222; {restaurant.phone}</span>}
         </div>
       </div>
       <div className="menu-layout">
